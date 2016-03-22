@@ -44,13 +44,4 @@ node default {
   #   class { 'my_class': }
   notify { "Hello, my name is ${::hostname}, and I am a happy little vegemite": }
   
-  exec {'update motd':
-    path => '/usr/local/bin',
-    command => "cowsay 'Welcome to ${::fqdn}!' > /etc/motd",
-    creates => '/etc/motd',
-  }
-  
-  include users
-  include skeleton
-  
 }

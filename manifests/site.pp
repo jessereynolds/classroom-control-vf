@@ -44,4 +44,7 @@ node default {
   #   class { 'my_class': }
   notify { "Hello, my name is ${::hostname}, and I am a happy little vegemite": }
   
+  if $::is_virtual {
+    notify {"We are on a virtual machine of type ${::virtual}": }
+  }
 }

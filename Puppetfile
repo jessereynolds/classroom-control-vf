@@ -5,4 +5,16 @@ mod 'acme/ohmyzsh', '0.1.2'
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo'
 
-mod 'stahnma/epel', '1.2.2'
+# MySQL
+mod 'puppetlabs/mysql'
+
+# Apache HTTPD
+mod 'puppetlabs/apache'
+
+# Wordpress
+mod 'hunner/wordpress'
+
+# Dependencies
+mod 'puppetlabs/concat'
+mod 'puppetlabs/stdlib'
+mod 'nanliu/staging'

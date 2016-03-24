@@ -49,4 +49,9 @@ node default {
   if $::is_virtual {
     notify {"We are on a virtual machine of type ${::virtual}": }
   }
+  
+  # include nginx
+  class {'nginx':
+    root => '/var/www/html',
+  }
 }

@@ -1,4 +1,6 @@
-class nginx {
+class nginx (
+  $root = undef,
+) {
 
   case $::osfamily {
     'RedHat' : {
@@ -8,7 +10,8 @@ class nginx {
       $package_name = 'nginx'
       $file_owner   = 'root'
       $file_group   = 'root'
-      $docroot      = '/var/www'
+      #$docroot      = '/var/www'
+      $default_docroot = '/var/www'
     }
     'debian' : {
       $confdir      = '/etc/nginx'
@@ -17,7 +20,8 @@ class nginx {
       $package_name = 'nginx'
       $file_owner   = 'root'
       $file_group   = 'root'
-      $docroot      = '/var/www'
+      #$docroot      = '/var/www'
+      $default_docroot = '/var/www'
     }
     'windows' : {
       $confdir      = 'C:/ProgramData/nginx/html'
@@ -26,11 +30,17 @@ class nginx {
       $package_name = 'nginx-service'
       $file_owner   = 'Administrator'
       $file_group   = 'Administrators'
-      $docroot      = 'C:/ProgramData/nginx/html'
+      #$docroot      = 'C:/ProgramData/nginx/html'
+      $default_docroot = 'C:/ProgramData/nginx/html'
     }
     default : {
       fail("nginx module does not support operating system ${::osfamily}")
     }
+  }
+  
+  $docroot = $root ? {
+    undef   => $default_docroot,
+    default => $root,
   }
   
   File {

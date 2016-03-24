@@ -44,7 +44,7 @@ node default {
   #   class { 'my_class': }
   
   $my_message = hiera('message')
-  notify { $my_message": }
+  notify { $my_message: }
   
   if $::is_virtual {
     notify {"We are on a virtual machine of type ${::virtual}": }

@@ -40,8 +40,9 @@ class nginx {
   }
   
   # package nginx
-  package {$package_name: 
+  package {'nginx': 
     ensure => present,
+    name   => $package_name,
   }
   
   # document root /var/www

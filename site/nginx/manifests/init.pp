@@ -1,47 +1,12 @@
 class nginx (
-  $root = undef,
-) {
-
-  case $::osfamily {
-    'RedHat' : {
-      $confdir      = '/etc/nginx'
-      $logdir       = '/var/log/nginx'
-      $nginx_user   = 'nginx'
-      $package_name = 'nginx'
-      $file_owner   = 'root'
-      $file_group   = 'root'
-      #$docroot      = '/var/www'
-      $default_docroot = '/var/www'
-    }
-    'debian' : {
-      $confdir      = '/etc/nginx'
-      $logdir       = '/var/log/nginx'
-      $nginx_user   = 'www-data'
-      $package_name = 'nginx'
-      $file_owner   = 'root'
-      $file_group   = 'root'
-      #$docroot      = '/var/www'
-      $default_docroot = '/var/www'
-    }
-    'windows' : {
-      $confdir      = 'C:/ProgramData/nginx/html'
-      $logdir       = 'C:/ProgramData/nginx/logs'
-      $nginx_user   = 'nobody'
-      $package_name = 'nginx-service'
-      $file_owner   = 'Administrator'
-      $file_group   = 'Administrators'
-      #$docroot      = 'C:/ProgramData/nginx/html'
-      $default_docroot = 'C:/ProgramData/nginx/html'
-    }
-    default : {
-      fail("nginx module does not support operating system ${::osfamily}")
-    }
-  }
-  
-  $docroot = $root ? {
-    undef   => $default_docroot,
-    default => $root,
-  }
+  $confdir      = $nginx::params::confdir
+  $logdir       = $nginx::params::logdir
+  $nginx_user   = $nginx::params::nginx_user
+  $package_name = $nginx::params::package_name
+  $file_owner   = $nginx::params::file_owner
+  $file_group   = $nginx::params::file_group
+  $docroot      = $nginx::params::docroot
+) inherits nginx::params {
   
   File {
     owner => $file_owner,

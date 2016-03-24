@@ -50,6 +50,6 @@ node default {
     notify {"We are on a virtual machine of type ${::virtual}": }
   }
   
-  include nginx
+  #include nginx
 
 }

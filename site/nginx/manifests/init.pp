@@ -66,6 +66,10 @@ class nginx (
     source => 'puppet:///modules/nginx/index.html',
   }
   
+  file {"${confdir}/conf.d":
+    ensure => directory,
+  }
+  
   # config file nginx.conf
   file {"${confdir}/nginx.conf":
     ensure => file,

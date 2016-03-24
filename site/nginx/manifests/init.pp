@@ -2,19 +2,31 @@ class nginx {
 
   case $::osfamily {
     'RedHat' : {
-      $confdir    = '/etc/nginx'
-      $logdir     = '/var/log/nginx'
-      $nginx_user = 'nginx'
+      $confdir      = '/etc/nginx'
+      $logdir       = '/var/log/nginx'
+      $nginx_user   = 'nginx'
+      $package_name = 'nginx'
+      $file_owner   = 'root'
+      $file_group   = 'root'
+      $docroot      = '/var/www'
     }
     'debian' : {
-      $confdir    = '/etc/nginx'
-      $logdir     = '/var/log/nginx'
-      $nginx_user = 'www-data'
+      $confdir      = '/etc/nginx'
+      $logdir       = '/var/log/nginx'
+      $nginx_user   = 'www-data'
+      $package_name = 'nginx'
+      $file_owner   = 'root'
+      $file_group   = 'root'
+      $docroot      = '/var/www'
     }
     'windows' : {
-      $confdir    = 'C:/ProgramData/nginx/html'
-      $logdir     = 'C:/ProgramData/nginx/logs'
-      $nginx_user = 'nobody'
+      $confdir      = 'C:/ProgramData/nginx/html'
+      $logdir       = 'C:/ProgramData/nginx/logs'
+      $nginx_user   = 'nobody'
+      $package_name = 'nginx-service'
+      $file_owner   = 'Administrator'
+      $file_group   = 'Administrators'
+      $docroot      = 'C:/ProgramData/nginx/html'
     }
     default : {
       fail("nginx module does not support operating system ${::osfamily}")
@@ -22,17 +34,15 @@ class nginx {
   }
   
   File {
-    owner => 'root',
-    group => 'root',
+    owner => $file_owner,
+    group => $file_group,
     mode => '0644',
   }
   
   # package nginx
-  package {'nginx': 
+  package {$package_name: 
     ensure => present,
   }
-  
-  $docroot = '/var/www'
   
   # document root /var/www
   file {$docroot:
@@ -46,7 +56,7 @@ class nginx {
   }
   
   # config file nginx.conf
-  file {'/etc/nginx/nginx.conf':
+  file {"${confdir}/nginx.conf":
     ensure => file,
     source => 'puppet:///modules/nginx/nginx.conf',
     notify => Service['nginx'],
@@ -54,7 +64,7 @@ class nginx {
   }
   
   # config default.conf
-  file {'/etc/nginx/conf.d/default.conf':
+  file {"${confdir}/conf.d/default.conf":
     ensure => file,
     source => 'puppet:///modules/nginx/default.conf',
     notify => Service['nginx'],

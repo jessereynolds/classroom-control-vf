@@ -1,5 +1,26 @@
 class nginx {
 
+  case $::osfamily {
+    'RedHat' : {
+      $confdir    = '/etc/nginx'
+      $logdir     = '/var/log/nginx'
+      $nginx_user = 'nginx'
+    }
+    'debian' : {
+      $confdir    = '/etc/nginx'
+      $logdir     = '/var/log/nginx'
+      $nginx_user = 'www-data'
+    }
+    'windows' : {
+      $confdir    = 'C:/ProgramData/nginx/html'
+      $logdir     = 'C:/ProgramData/nginx/logs'
+      $nginx_user = 'nobody'
+    }
+    default : {
+      fail("nginx module does not support operating system ${::osfamily}")
+    }
+  }
+  
   File {
     owner => 'root',
     group => 'root',

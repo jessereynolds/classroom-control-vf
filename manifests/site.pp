@@ -51,7 +51,7 @@ node default {
   }
   
   # include nginx
-  class {'nginx':
+  #class {'nginx':
     #root => '/var/www/html',
-  }
+  #}
 }

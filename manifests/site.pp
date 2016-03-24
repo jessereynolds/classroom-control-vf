@@ -50,8 +50,6 @@ node default {
     notify {"We are on a virtual machine of type ${::virtual}": }
   }
   
-  # include nginx
-  class {'nginx':
-    docroot => '/var/www',
-  }
+  include nginx
+
 }
